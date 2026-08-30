@@ -1,127 +1,77 @@
-# Nelson Produce — website
+# Nelson Produce
 
-A one-page website for Nelson Produce, a roadside produce stand at 1800 West Meyer
-Road, Wentzville, Missouri. Volunteer project. No framework — a small Node script
-turns the content files into a plain, fast `dist/index.html`.
+A website for **Nelson Produce**, the family-run roadside produce stand at
+1800 West Meyer Road in Wentzville, Missouri. Mike and Laura Nelson took over the
+stand — known around town for years as the Lil' Shack — in 2025 and kept it going
+under their own name.
 
-**Live:** https://c78c73.github.io/nelson-produce/ (until a custom domain is set up)
+They sell what's in season off the garden behind the stand and from Amish growers
+they've bought from for years: tomatoes and Amish tomatoes, sweet corn, peppers,
+greens, melons, local honey, home-baked bread, and in the fall mums, pumpkins,
+and Christmas trees come November.
 
----
+## About this project
 
-## Editing the content
+The stand had no website, just a Facebook group. This is a small, volunteer-built
+one: a single page covering who they are, where to find them, what's on the
+table, a month-by-month guide to what's in season, photos, customer reviews, and
+the usual questions. No ads, no tracking that follows people around, nothing to
+log into.
 
-Everything you'd want to change lives in `src/data/` as plain lists:
+**Live at:** https://c78c73.github.io/nelson-produce/
 
-| File | What it controls |
-|---|---|
-| `src/data/site.mjs` | Name, address, hours note, payment, links, `SITE_URL`, `DRAFT` |
-| `src/data/prices.mjs` | The "In the stand this week" list |
-| `src/data/products.mjs` | The "What we grow & sell" list |
-| `src/data/season.mjs` | The month-by-month "In season" chart |
-| `src/data/reviews.mjs` | The customer quotes |
-| `src/data/faq.mjs` | Questions & answers |
-| `src/data/photos.mjs` | Which photos show, in what order, with captions |
+It's still a **draft**. Some details were gathered from public listings and need
+checking with the Nelsons before it's finished, so for now the page asks search
+engines not to list it yet.
 
-Edit a file, save, rebuild (`npm run build`), and the site updates. Commit and push
-to `main` and it deploys itself in ~1 minute.
+## Still to check with Mike & Laura
 
-## Preview locally
+- Hours, and when the stand opens and closes for the season
+- The current "in the stand this week" list and prices
+- The full list of what they carry — trim it to what's real
+- Roughly which months each thing is in season
+- Whether they're happy mentioning the Lil' Shack history
+- Whether it's OK to feature the Google review quotes
+- A phone number (the one online isn't confirmed, so it's left off)
+- A few real photos — especially the barn-red stand with the flag out front
 
-```bash
-npm install        # first time only (for the photo tool)
-npm run build      # writes dist/
-npm run preview    # build + serve at http://localhost:8080
-```
+## Changing what the site says
+
+The wording lives in plain lists in `src/data/`. Open the relevant file, edit the
+text, save:
+
+- `prices.mjs` — the "in the stand this week" list
+- `season.mjs` — the month-by-month chart
+- `products.mjs` — what they grow and sell
+- `faq.mjs` — the questions and answers
+- `reviews.mjs` — the customer quotes
+- `site.mjs` — address, hours note, links, and the draft switch
+
+Then rebuild and publish, or hand it back to whoever set this up.
 
 ## Adding photos
 
-1. Drop originals into `_source-photos/incoming/`
-2. `npm run photos` — optimizes them into `src/photos/*.webp`
-3. Add the filenames + captions to `src/data/photos.mjs`
+Put the originals in `_source-photos/incoming/`, run `npm run photos`, and add the
+new filenames to `src/data/photos.mjs`. They're resized and cleaned up for you.
 
-The gallery shows the first `galleryPreviewCount` photos with a "View all" button.
+## When it's ready to go public
 
-## Going from draft to live
+In `src/data/site.mjs`: set `DRAFT` to `false`. Once there's a real domain, put it
+in `SITE_URL` and add a `public/CNAME` file containing just that domain. That
+removes the "don't list me yet" note so the site can show up in searches.
 
-In `src/data/site.mjs`:
+---
 
-- `DRAFT = true` tells search engines not to index the site yet and shows a small
-  "Draft" line in the footer. Set it to `false` once the ✎ items below are
-  confirmed.
-- `SITE_URL` is the site's public address. Change it to the real domain when one
-  is set up (e.g. `https://nelsonproduce.com`), then add a `public/CNAME` file
-  containing just that domain and configure DNS + "Enforce HTTPS" in the repo's
-  Pages settings.
+### Technical notes
 
-## Still to confirm with the Nelson family (the ✎ marks)
+No framework. `node build.mjs` turns the files in `src/data/` into `dist/`.
+`npm run preview` builds it and serves it locally.
 
-- Exact hours + the season's open / close dates
-- Payment (the Google listing says cards + debit; confirm cash / anything else)
-- Phone number (the one online is unverified, so it isn't published)
-- The "In the stand this week" list and prices
-- The full product list (trim to what they actually carry)
-- The "In season by month" windows
-- The Lil' Shack history and that they're OK mentioning it
-- OK to feature the Google review quotes
-- A few real photos — especially the barn-red exterior and the flag
+Published from the **`gh-pages` branch**: `npm run build`, then copy `dist/` onto
+that branch and push. `ci/deploy.yml.pending` is a GitHub Actions workflow that
+does this on every push — move it to `.github/workflows/` once the GitHub token
+has `workflow` permission (`gh auth refresh -s workflow`).
 
-## SEO / getting found on Google
-
-Built in already: `<title>` + description, `LocalBusiness` structured data
-(name, address, geo, link to Facebook), Open Graph tags for nice Facebook link
-previews, `sitemap.xml`, `robots.txt`, semantic HTML, fast load, mobile layout.
-
-The bigger levers are off the website:
-
-- **Google Business Profile is #1.** Keep the name / address on this site
-  character-for-character identical to the profile, set this site as the
-  profile's "Website", and keep posting updates + gathering reviews.
-- After a custom domain is live: add it to the Google Business Profile, verify
-  the domain in **Google Search Console**, and submit `sitemap.xml` there.
-- Get listed consistently (same name + address) on a few local directories.
-
-## Visitor analytics
-
-The build can drop in any of three cookieless analytics scripts (no consent
-banner needed). Each one needs a free account first — then paste the token/ID
-into the `analytics` object in `src/data/site.mjs` and rebuild. You can enable
-more than one.
-
-| Service | Sign up | What you paste | Notes |
-|---|---|---|---|
-| **Cloudflare Web Analytics** | dash.cloudflare.com → Web Analytics → Add a site | `cloudflareToken` (the `token` value in the snippet) | Adds real-world load-speed metrics. No public share link. |
-| **Umami** | cloud.umami.is (free tier) or self-host | `umamiWebsiteId` (+ `umamiSrc` if self-hosted) | Nice dashboard, shareable public URL. |
-| **GoatCounter** | goatcounter.com | `goatcounterCode` (just your subdomain) | Simplest. Dashboard can be made fully public — best if the Nelsons should see stats with no login. |
-
-### Optional: auto-refresh the Google reviews
-
-Right now `src/data/reviews.mjs` holds a few hand-picked quotes. To keep them
-current automatically, add a scheduled GitHub Action that calls the Google
-Places API (key stored as a repo secret), writes the latest reviews to that
-file, and commits. Note the API returns at most 5 reviews and Google chooses
-which 5. A no-backend alternative is a free widget like Featurable.
-
-## How deploy works
-
-Right now the site is served from the **`gh-pages` branch**, which holds only the
-built output. To publish a change:
-
-```bash
-npm run build
-git worktree add /tmp/np-ghpages gh-pages   # first time
-cp -r dist/* /tmp/np-ghpages/
-cd /tmp/np-ghpages && git add -A && git commit -m "publish" && git push
-```
-
-### Switching to automatic deploys (recommended once possible)
-
-The GitHub token used to create this repo lacked the `workflow` permission, so
-the Actions workflow couldn't be added. To turn it on:
-
-1. `gh auth refresh -s workflow` (in an interactive terminal), or add the
-   `workflow` scope to the token at github.com → Settings → Developer settings.
-2. `mkdir -p .github/workflows && git mv ci/deploy.yml.pending .github/workflows/deploy.yml`
-3. Commit and push.
-4. Repo **Settings → Pages → Source → GitHub Actions**.
-
-After that, every push to `main` rebuilds and deploys on its own.
+Analytics (Cloudflare Web Analytics, Umami, or GoatCounter) stay off until a
+token is added to the `analytics` block in `src/data/site.mjs`. All three are
+cookieless and need no consent banner.
