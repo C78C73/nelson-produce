@@ -1,0 +1,16 @@
+{
+  "name": "nelson-produce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website for Nelson Produce, a roadside produce stand in Wentzville, MO.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs && npx --yes serve dist -l 8080",
+    "photos": "node scripts/optimize-photos.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "sharp": "^0.35.4"
+  }
+}
