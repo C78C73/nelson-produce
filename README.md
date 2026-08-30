@@ -90,5 +90,25 @@ which 5. A no-backend alternative is a free widget like Featurable.
 
 ## How deploy works
 
-Push to `main` → `.github/workflows/deploy.yml` runs `node build.mjs` and
-publishes `dist/` to GitHub Pages. Nothing else to run.
+Right now the site is served from the **`gh-pages` branch**, which holds only the
+built output. To publish a change:
+
+```bash
+npm run build
+git worktree add /tmp/np-ghpages gh-pages   # first time
+cp -r dist/* /tmp/np-ghpages/
+cd /tmp/np-ghpages && git add -A && git commit -m "publish" && git push
+```
+
+### Switching to automatic deploys (recommended once possible)
+
+The GitHub token used to create this repo lacked the `workflow` permission, so
+the Actions workflow couldn't be added. To turn it on:
+
+1. `gh auth refresh -s workflow` (in an interactive terminal), or add the
+   `workflow` scope to the token at github.com → Settings → Developer settings.
+2. `mkdir -p .github/workflows && git mv ci/deploy.yml.pending .github/workflows/deploy.yml`
+3. Commit and push.
+4. Repo **Settings → Pages → Source → GitHub Actions**.
+
+After that, every push to `main` rebuilds and deploys on its own.
