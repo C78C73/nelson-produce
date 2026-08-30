@@ -5,7 +5,7 @@ import { mkdirSync, rmSync, cpSync, writeFileSync, readFileSync, existsSync } fr
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import { site, SITE_URL, DRAFT } from './src/data/site.mjs';
+import { site, analytics, SITE_URL, DRAFT } from './src/data/site.mjs';
 import { renderBody } from './src/page.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -57,6 +57,25 @@ const draftNote = DRAFT
   ? '<p class="draft-flag">Draft — details still being confirmed with the Nelson family.</p>'
   : '';
 
+// --- optional privacy-friendly analytics (only what's configured) ---
+const a11y = [];
+if (analytics.cloudflareToken) {
+  a11y.push(
+    `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${analytics.cloudflareToken}"}'></script>`
+  );
+}
+if (analytics.umamiWebsiteId) {
+  a11y.push(
+    `<script defer src="${analytics.umamiSrc}" data-website-id="${analytics.umamiWebsiteId}"></script>`
+  );
+}
+if (analytics.goatcounterCode) {
+  a11y.push(
+    `<script data-goatcounter="https://${analytics.goatcounterCode}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`
+  );
+}
+const analyticsTags = a11y.join('\n');
+
 const inlineScript = `
 (function(){
   var grid=document.querySelector('.plates');
@@ -105,6 +124,7 @@ ${head}
 <body>
 ${body}
 <script>${inlineScript}</script>
+${analyticsTags}
 </body>
 </html>
 `;

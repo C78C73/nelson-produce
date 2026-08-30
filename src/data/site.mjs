@@ -54,6 +54,24 @@ export const site = {
   google: { rating: 5.0, reviewCount: 25 },
 };
 
+// Privacy-friendly visitor analytics. All three are cookieless and need no
+// consent banner. Leave a field blank to skip that one; fill any you want and
+// rebuild. You can run more than one at once.
+//
+//  - Cloudflare Web Analytics: dash.cloudflare.com -> Analytics & Logs ->
+//    Web Analytics -> "Add a site". Copy the token out of the snippet it shows
+//    (the value after "token": "...").
+//  - Umami: cloud.umami.is (free tier) or self-hosted -> add website ->
+//    Tracking code. Copy the data-website-id, and the script src if self-hosted.
+//  - GoatCounter: sign up at goatcounter.com, pick a code -> your dashboard is
+//    <code>.goatcounter.com and can be made public. Put just the <code> here.
+export const analytics = {
+  cloudflareToken: '',
+  umamiWebsiteId: '',
+  umamiSrc: 'https://cloud.umami.is/script.js',
+  goatcounterCode: '',
+};
+
 // The public address of the finished site. Change this one line when the
 // custom domain is live (e.g. 'https://nelsonproduce.com').
 export const SITE_URL = 'https://c78c73.github.io/nelson-produce';

@@ -80,6 +80,19 @@ The bigger levers are off the website:
   the domain in **Google Search Console**, and submit `sitemap.xml` there.
 - Get listed consistently (same name + address) on a few local directories.
 
+## Visitor analytics
+
+The build can drop in any of three cookieless analytics scripts (no consent
+banner needed). Each one needs a free account first — then paste the token/ID
+into the `analytics` object in `src/data/site.mjs` and rebuild. You can enable
+more than one.
+
+| Service | Sign up | What you paste | Notes |
+|---|---|---|---|
+| **Cloudflare Web Analytics** | dash.cloudflare.com → Web Analytics → Add a site | `cloudflareToken` (the `token` value in the snippet) | Adds real-world load-speed metrics. No public share link. |
+| **Umami** | cloud.umami.is (free tier) or self-host | `umamiWebsiteId` (+ `umamiSrc` if self-hosted) | Nice dashboard, shareable public URL. |
+| **GoatCounter** | goatcounter.com | `goatcounterCode` (just your subdomain) | Simplest. Dashboard can be made fully public — best if the Nelsons should see stats with no login. |
+
 ### Optional: auto-refresh the Google reviews
 
 Right now `src/data/reviews.mjs` holds a few hand-picked quotes. To keep them
