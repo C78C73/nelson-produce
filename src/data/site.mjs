@@ -66,7 +66,7 @@ export const site = {
 //  - GoatCounter: sign up at goatcounter.com, pick a code -> your dashboard is
 //    <code>.goatcounter.com and can be made public. Put just the <code> here.
 export const analytics = {
-  cloudflareToken: '',
+  cloudflareToken: '8230f5b095e143758a83cc867ae78423', // Cloudflare Web Analytics, hostname c78c73.github.io
   umamiWebsiteId: '',
   umamiSrc: 'https://cloud.umami.is/script.js',
   goatcounterCode: '',
